@@ -10,13 +10,6 @@ const MySunEditor = ({ onChange, initialContent = "" }) => {
 
   const editor = useRef();
 
-  useEffect(() => {
-    // Set the initial content when it changes
-    if (editor.current && initialContent) {
-      editor.current.setContents(initialContent);
-    }
-  }, [initialContent]);
-
   // The sunEditor parameter will be set to the core suneditor instance when this function is called
   const getSunEditorInstance = (sunEditor) => {
     editor.current = sunEditor;
@@ -52,6 +45,7 @@ const MySunEditor = ({ onChange, initialContent = "" }) => {
           }}
           getSunEditorInstance={getSunEditorInstance}
           miHeight="100px"
+          width="100%"
         />
       </Row>
     </Card>

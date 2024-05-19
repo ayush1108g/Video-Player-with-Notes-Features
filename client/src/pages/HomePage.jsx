@@ -45,7 +45,7 @@ const HomePage = () => {
                     <h4>Recent Videos</h4>
                     <div className="row">
                         {history.map((data, index) => {
-                            return <div key={index} className="col-lg-3 col-md-4 col-sm-6 mb-4"  >
+                            return <div key={index} className={`col-lg-3 col-md-4 col-sm-6 mb-4 ${classes.card}`}  >
                                 <div className="card">
                                     <img src={data.snippet.thumbnails.default.url} className="card-img-top" alt="thumbnail" />
                                     <div className="card-body">
