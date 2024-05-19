@@ -1,4 +1,5 @@
 # Video Player with Notes
+## Site live on https://videoplayer-withnotes.netlify.app/
 
 This application is a video player that allows users to take notes at specific timestamps. It supports adding images and using an HTML editor to format the notes. The notes are saved locally and can be accessed later. The project is built with React, Bootstrap, and Framer Motion, using React Router for navigation.
 
@@ -7,7 +8,6 @@ This application is a video player that allows users to take notes at specific t
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Project Structure](#project-structure)
 - [Components](#components)
 
 ## Features
@@ -45,34 +45,6 @@ This application is a video player that allows users to take notes at specific t
 2. **Video Page**: Watch the video and add notes at specific timestamps.
 3. **Notes**: Add text, images, and HTML content to notes. Notes are saved locally and displayed with timestamps.
 4. **History**: View recently watched videos on the home page.
-
-## Project Structure
-
-Video-Player-with-Notes-Features/ 
-├── public/ 
-├── src/ 
-│ ├── components/ 
-│ │ ├── Header.jsx 
-│ │ ├── RoutesComponent.jsx 
-│ │ ├── VideoPlayer.jsx 
-│ │ ├── Notes.jsx 
-│ │ ├── Note.jsx 
-│ │ ├── Modal.jsx 
-│ ├── cssmodules/ 
-│ │ ├── Header.module.css 
-│ │ ├── HomePage.module.css 
-│ │ ├── VideoPlayer.module.css 
-│ │ ├── Notes.module.css 
-│ │ ├── Note.module.css 
-│ ├── pages/ 
-│ │ ├── HomePage.jsx 
-│ │ ├── VideoPage.jsx 
-│ ├── store/ 
-│ │ ├── AlertContext.js 
-│ │ ├── HelperFunctions.js 
-│ ├── Editor.js
-│ ├── App.jsx 
-│ ├── index.js 
 
 ## Components
 
