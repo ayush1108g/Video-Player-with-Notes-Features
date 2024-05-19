@@ -9,12 +9,25 @@
   /* box-shadow: 2px 0px 8px rgba(0, 0, 0, 0.2); */
   border: 1px solid rgba(0, 0, 0, 0.211);
   border-radius: 5px;
+  word-wrap: break-word;
+  text-wrap: wrap;
+}
+.imageContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 .timeStr {
   color: rgb(25, 25, 208);
   cursor: pointer;
 }
-
+.image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 5px;
+}
 .buttonContainer {
   display: flex;
   flex-direction: row;

@@ -4,19 +4,22 @@ import { HashRouter } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 
 import { AlertProvider } from "./store/AlertContext";
-import RoutesComponent from "./components/MainComponent";
+import RoutesComponent from "./components/RoutesComponent";
 import Header from "./components/Header";
 
 function App() {
   return (
-    <HashRouter>
-      <AnimatePresence>
-        <AlertProvider>
-          <Header />
-          <RoutesComponent />
-        </AlertProvider>
-      </AnimatePresence>
-    </HashRouter>);
+    <div style={{ fontFamily: 'poppins' }}>
+      <HashRouter>
+        <AnimatePresence mode="wait">
+          <AlertProvider>
+            <Header />
+            <RoutesComponent />
+          </AlertProvider>
+        </AnimatePresence>
+      </HashRouter>
+    </div>
+  );
 }
 
 export default App;

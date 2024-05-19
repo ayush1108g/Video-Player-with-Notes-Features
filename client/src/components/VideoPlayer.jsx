@@ -1,17 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { getVideoDetails } from '../store/HelperFunctions';
+import classes from '../cssmodules/VideoPlayer.module.css';
+
+import { getVideoDetails, createLinkMarkup } from '../store/HelperFunctions';
 
 const VideoPlayer = ({ videoId, startTime, currentTime, setCurrentTime }) => {
-    const playerRef = useRef(null);
-    const [playerReady, setPlayerReady] = useState(false);
-    const [videoDetails, setVideoDetails] = useState(null);
-    const [readMore, setReadMore] = useState(false);
+    const playerRef = useRef(null);                             // Reference to the YouTube IFrame Player
+    const [playerReady, setPlayerReady] = useState(false);      // State to check if the player is ready
+    const [videoDetails, setVideoDetails] = useState(null);     // State to store the video details
+    const [readMore, setReadMore] = useState(false);            // State to toggle between read more and read less
 
     useEffect(() => {
+        // Fetch the video details from the YouTube API
         const getdetails = async () => {
-
             const data = await getVideoDetails(videoId);
-            console.log(data);
             if (data) {
                 setVideoDetails(data);
                 if (data.snippet.description.length) setReadMore(true);
@@ -32,7 +33,6 @@ const VideoPlayer = ({ videoId, startTime, currentTime, setCurrentTime }) => {
             firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
             window.onYouTubeIframeAPIReady = initializePlayer;
         }
-
         // Clean up function
         return () => {
             if (playerRef.current) {
@@ -42,6 +42,7 @@ const VideoPlayer = ({ videoId, startTime, currentTime, setCurrentTime }) => {
     }, [videoId]);
 
     const initializePlayer = () => {
+        // Initialize the YouTube IFrame Player with the videoId and start time
         playerRef.current = new window.YT.Player('youtube-player', {
             videoId: videoId,
             playerVars: {
@@ -56,16 +57,17 @@ const VideoPlayer = ({ videoId, startTime, currentTime, setCurrentTime }) => {
     };
 
     useEffect(() => {
+        // Seek to the start time when the player is ready and the start time is not 0
         if (playerReady && playerRef.current && playerRef.current.seekTo) {
             playerRef.current.seekTo(startTime);
         }
     }, [startTime, playerReady, videoId]);
 
     const onPlayerStateChange = (event) => {
+        // If the video is playing, start a timer to update the current time
         if (event.data === window.YT.PlayerState.PLAYING) {
             // Start a timer to update the current time
             const interval = setInterval(() => {
-                // if (playerReady)
                 setCurrentTime(playerRef?.current?.getCurrentTime());
             }, 1000);
 
@@ -73,23 +75,22 @@ const VideoPlayer = ({ videoId, startTime, currentTime, setCurrentTime }) => {
             return () => clearInterval(interval);
         }
     };
-    console.log(currentTime);
 
-    const createLinkMarkup = (text) => {
-        const urlPattern = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
-        const linkifiedText = text?.replace(urlPattern, (url) => {
-            return `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`;
-        });
-        return { __html: linkifiedText };
+    const toggleReadMore = () => {
+        setReadMore(prev => !prev);
     };
 
-
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', padding: '0px 32px 0px 32px' }}>
-            <div id="youtube-player" style={{ width: '100%', alignItems: 'center', height: '70vh', borderRadius: '8px', marginBottom: '10px' }}></div>
+        <div className={classes.container}>
+            <div id="youtube-player" className={classes.player}></div>
             <h4>{videoDetails?.snippet?.title}</h4>
-            <p style={{ fontSize: '14px' }}>                 <span dangerouslySetInnerHTML={createLinkMarkup(readMore ? videoDetails?.snippet?.description?.substring(0, 100) : videoDetails?.snippet?.description)} />
-                {videoDetails?.snippet?.description && (readMore ? <span onClick={() => setReadMore(false)} style={{ color: 'blue', cursor: 'pointer' }} >  Read More </span> : <span onClick={() => setReadMore(true)} style={{ color: 'blue', cursor: 'pointer' }} >  Show less</span>)}
+            <p style={{ fontSize: '14px' }}>
+                <span dangerouslySetInnerHTML={createLinkMarkup(readMore ? videoDetails?.snippet?.description?.substring(0, 100) : videoDetails?.snippet?.description)} />
+                {videoDetails?.snippet?.description && (
+                    <span onClick={toggleReadMore} className={classes.readMore}>
+                        {!readMore ? '  Show less' : '...  Read More'}
+                    </span>
+                )}
             </p>
         </div >
     );

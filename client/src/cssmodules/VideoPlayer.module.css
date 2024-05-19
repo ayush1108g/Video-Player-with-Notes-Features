@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 0px 32px 0px 32px;
+}
+.player {
+  width: 100%;
+  align-items: center;
+  height: 70vh;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+.readMore {
+  color: blue;
+  cursor: pointer;
+}
+@media screen and (max-width: 600px) {
+  .player {
+    height: 50vh;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .container {
+    padding: 0px 16px 0px 16px;
+  }
+  .player {
+    height: 30vh;
+  }
+}

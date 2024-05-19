@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import classes from '../cssmodules/VideoPage.module.css';
 
 import { useParams } from 'react-router'
 import VideoPlayer from '../components/VideoPlayer';
@@ -24,13 +23,9 @@ const VideoPage = () => {
 
     console.log(videoId);
     return (
-        <div className={classes.container}>
-            <div>
-                <VideoPlayer videoId={videoId} startTime={startTime} currentTime={currentTime} setCurrentTime={setCurrentTime} />
-            </div>
-            <div>
-                <Notes videoId={videoId} currentTime={currentTime} setStartTime={setStartTime} />
-            </div>
+        <div>
+            <VideoPlayer videoId={videoId} startTime={startTime} currentTime={currentTime} setCurrentTime={setCurrentTime} />
+            <Notes videoId={videoId} currentTime={currentTime} setStartTime={setStartTime} />
         </div>
     )
 }

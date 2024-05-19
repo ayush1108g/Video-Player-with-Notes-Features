@@ -22,6 +22,13 @@ const formatISTDate = (timestamp) => {
     return { date: formattedDate, time: formattedTime };
 }
 
+const createLinkMarkup = (text) => {
+    const urlPattern = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+    const linkifiedText = text?.replace(urlPattern, (url) => {
+        return `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`;
+    });
+    return { __html: linkifiedText };
+};
 
 const getVideoDetails = async (videoId) => {
     const link = "https://www.googleapis.com/youtube/v3/videos";
@@ -40,4 +47,21 @@ const getVideoDetails = async (videoId) => {
     }
 }
 
-export { formatISTDate, getVideoDetails };
+const handleImageUpload = (file) => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+
+        reader.onloadend = () => {
+            const base64String = reader.result;
+            resolve(base64String);
+        };
+
+        if (file) {
+            reader.readAsDataURL(file);
+        } else {
+            reject(new Error('No file provided'));
+        }
+    });
+};
+
+export { formatISTDate, getVideoDetails, handleImageUpload, createLinkMarkup };

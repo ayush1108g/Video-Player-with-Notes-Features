@@ -20,6 +20,14 @@
   display: flex;
   align-items: center;
 }
+.addItemContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
 .button {
   background: none;
   background-color: #ffffff;
@@ -34,4 +42,35 @@
 }
 .button:hover {
   background-color: #f8f9fa;
+}
+.timeStr {
+  color: rgb(25, 25, 208);
+  cursor: pointer;
+}
+.image {
+  width: 100px;
+  height: 100px;
+  padding: 10px;
+}
+.hoveredImageIcon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 500px) {
+  .additemcontainer {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .buttonContainer {
+    justify-content: center;
+  }
+}
+@media screen and (max-width: 400px) {
+  .container {
+    margin: 16px;
+  }
 }
