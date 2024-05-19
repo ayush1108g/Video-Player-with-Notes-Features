@@ -3,7 +3,7 @@ import Alert from "../components/Alert.jsx";
 const AlertContext = createContext();
 
 const AlertProvider = ({ children }) => {
-  const [alert, setAlert] = useState(null);
+  const [alert, setAlert] = useState(null); // alert state
 
   // function to show alert
   const showAlert = (type, message) => {

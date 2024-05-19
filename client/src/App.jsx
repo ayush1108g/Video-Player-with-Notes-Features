@@ -7,7 +7,8 @@ import { AlertProvider } from "./store/AlertContext";
 import RoutesComponent from "./components/RoutesComponent";
 import Header from "./components/Header";
 
-function App() {
+const App = () => {
+
   return (
     <div style={{ fontFamily: 'poppins' }}>
       <HashRouter>

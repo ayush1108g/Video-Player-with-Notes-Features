@@ -21,9 +21,11 @@ const NoteComponent = ({ notes, note, index, saveNotesHandler, setStartTime }) =
 
     // Delete the note from the notes array
     const deleteNotesHandler = (index) => {
+        // Confirm before deleting the note
         const isConfirmed = window.confirm('Are you sure you want to delete this note?');
         if (!isConfirmed) return;
 
+        // Delete the note from the notes array and save the notes
         const newNotes = [...notes];
         newNotes.splice(index, 1);
         saveNotesHandler(newNotes);
@@ -32,6 +34,7 @@ const NoteComponent = ({ notes, note, index, saveNotesHandler, setStartTime }) =
 
     // Toggle between editing and viewing the note
     const toggleEditing = () => {
+        // If not editing, set the note text and images to the current note
         if (!isEditing) {
             setNoteText(JSON.parse(note.text));
             setEditImages(note.images);
@@ -41,6 +44,7 @@ const NoteComponent = ({ notes, note, index, saveNotesHandler, setStartTime }) =
 
     // Save the edited note
     const saveEditNoteHandler = () => {
+        // Update the note in the notes array and save the notes
         const newNotes = notes.map((note, i) => i === index ? { ...note, text: JSON.stringify(editNoteText), timestamp: Date.now(), images: editImages } : note);
         setIsEditing(false)
         if (saveNotesHandler(newNotes))
@@ -64,16 +68,14 @@ const NoteComponent = ({ notes, note, index, saveNotesHandler, setStartTime }) =
         setEditImages(newImageArr);
     };
 
-
+    // Handle the change in the note text
     const changeHandler = (content) => {
-        const dhtml = content;
-        const pdata = dhtml;
-        console.log("pdata", pdata);
-        setNoteText(pdata);
-        console.log("data", pdata);
+        setNoteText(content);
     };
 
+    // Handle the change in the image input
     const handleFileInputChange = async (event, setFunction) => {
+        // Get the files from the input
         const files = event.target.files;
         const maxFiles = 4; // Maximum number of images that can be uploaded (as too many images can slow down the site)
         if (files.length + editImages?.length > maxFiles) {
@@ -89,10 +91,10 @@ const NoteComponent = ({ notes, note, index, saveNotesHandler, setStartTime }) =
             }
         }
 
-        setFunction(prev => prev ? [...prev, ...imgArr] : [...imgArr]);
         // Store imgArr in local storage or use it as needed
-        console.log(imgArr);
+        setFunction(prev => prev ? [...prev, ...imgArr] : [...imgArr]);
     };
+
     // Format the date and time
     const datetime = formatISTDate(note.timestamp);
 
@@ -104,57 +106,58 @@ const NoteComponent = ({ notes, note, index, saveNotesHandler, setStartTime }) =
         transition: { duration: 0.5 }
     };
 
-    return <div key={index} className={classes.container}>
-        <div>
-            <div>{datetime.date + ' ' + datetime.time}</div>
-            <div>Timestamp:
-                <span className={classes.timeStr} onClick={() => navigateToTime(note.time)}> {timeStr} </span>
+    return (
+        <div key={index} className={classes.container}>
+            <div>
+                <div>{datetime.date + ' ' + datetime.time}</div>
+                <div>Timestamp:
+                    <span className={classes.timeStr} onClick={() => navigateToTime(note.time)}> {timeStr} </span>
+                </div>
             </div>
-        </div>
-        {!isEditing ? (
-            <>
-                <div className={classes.textContainer}
-                    dangerouslySetInnerHTML={{ __html: JSON.parse(note.text), }} ></div>
-                {note?.images?.length > 0 && <div className={classes.imageContainer}>
-                    {note.images.map((img, index) => {
-                        return <ImageModal key={index} imageUrl={img} className={classes.image} />
-                    })}
-                </div>}
-                <div className={classes.buttonContainer}>
-                    <button onClick={() => toggleEditing()} className={classes.button}>Edit Note</button>
-                    <button onClick={() => deleteNotesHandler(index)} className={classes.button}>Delete Note</button>
-                </div>
-            </>
-        ) : (
-            <>
-                {/* <input className={classes.textContainer} style={{ border: '1px solid black' }} value={editNoteText} onChange={(e) => setNoteText(e.target.value)} /> */}
-                <MySunEditor initialContent={JSON.parse(note.text)} onChange={changeHandler} />
-                <motion.div className="mb-3" {...animationVariants}>
-                    <input className="form-control shadow-none" accept="image/*" type="file" id="formFileMultiple" multiple onChange={(e) => handleFileInputChange(e, setEditImages)} />
-                </motion.div>
-                {editImages?.length > 0 && <div className={classes.imageContainer}>
-                    {editImages.map((img, index) => {
-                        return (<>
-                            <div key={index} onMouseEnter={() => setHoveredImageIndex(index)} onMouseLeave={() => setHoveredImageIndex(null)}
-                                style={{ position: 'relative', display: 'inline-block' }} >
-                                <ImageModal key={index} imageUrl={img} className={classes.image} />
-                                {hoveredImageIndex === index && (
-                                    <div style={{ position: 'absolute', top: 0, right: 0, cursor: 'pointer' }} onClick={() => deleteImage(index)}>
-                                        <FaTimes size={20} color="red" />
-                                    </div>
-                                )}
-                            </div>
-                        </>)
-                    })}
-                </div>}
-                <div className={classes.buttonContainer} >
-                    <button onClick={() => toggleEditing()} className={classes.button}>Cancel</button>
-                    <button onClick={saveEditNoteHandler} className={classes.button}>Save Note</button>
-                </div>
-            </>
-        )}
-        <hr />
-    </div>
+            {!isEditing ? (
+                <>
+                    <div className={classes.textContainer}
+                        dangerouslySetInnerHTML={{ __html: JSON.parse(note.text), }} ></div>
+                    {note?.images?.length > 0 && <div className={classes.imageContainer}>
+                        {note.images.map((img, index) => {
+                            return <ImageModal key={index} imageUrl={img} className={classes.image} />
+                        })}
+                    </div>}
+                    <div className={classes.buttonContainer}>
+                        <button onClick={() => toggleEditing()} className={classes.button}>Edit Note</button>
+                        <button onClick={() => deleteNotesHandler(index)} className={classes.button}>Delete Note</button>
+                    </div>
+                </>
+            ) : (
+                <>
+                    {/* <input className={classes.textContainer} style={{ border: '1px solid black' }} value={editNoteText} onChange={(e) => setNoteText(e.target.value)} /> */}
+                    <MySunEditor initialContent={JSON.parse(note.text)} onChange={changeHandler} />
+                    <motion.div className="mb-3" {...animationVariants}>
+                        <input className="form-control shadow-none" accept="image/*" type="file" id="formFileMultiple" multiple onChange={(e) => handleFileInputChange(e, setEditImages)} />
+                    </motion.div>
+                    {editImages?.length > 0 && <div className={classes.imageContainer}>
+                        {editImages.map((img, index) => {
+                            return (<>
+                                <div key={index} onMouseEnter={() => setHoveredImageIndex(index)} onMouseLeave={() => setHoveredImageIndex(null)}
+                                    className={classes.modalContainer} >
+                                    <ImageModal key={index} imageUrl={img} className={classes.image} />
+                                    {hoveredImageIndex === index && (
+                                        <div className={classes.crossIcon} onClick={() => deleteImage(index)}>
+                                            <FaTimes size={20} color="red" />
+                                        </div>
+                                    )}
+                                </div>
+                            </>)
+                        })}
+                    </div>}
+                    <div className={classes.buttonContainer} >
+                        <button onClick={() => toggleEditing()} className={classes.button}>Cancel</button>
+                        <button onClick={saveEditNoteHandler} className={classes.button}>Save Note</button>
+                    </div>
+                </>
+            )}
+            <hr />
+        </div>)
 }
 
 export default NoteComponent;

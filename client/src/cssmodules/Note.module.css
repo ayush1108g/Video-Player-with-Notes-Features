@@ -18,6 +18,16 @@
   flex-wrap: wrap;
   gap: 10px;
 }
+.crossIcon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+}
+.modalContainer {
+  position: relative;
+  display: inline-block;
+}
 .timeStr {
   color: rgb(25, 25, 208);
   cursor: pointer;

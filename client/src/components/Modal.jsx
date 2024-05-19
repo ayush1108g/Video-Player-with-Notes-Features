@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { Modal } from 'react-bootstrap';
 
 const ImageModal = ({ imageUrl, className }) => {
-    const [showModal, setShowModal] = useState(false);
+    const [showModal, setShowModal] = useState(false);  // state to show modal
 
-    const handleClose = () => setShowModal(false);
-    const handleShow = () => setShowModal(true);
+    const handleClose = () => setShowModal(false);      // function to close modal
+    const handleShow = () => setShowModal(true);        // function to show modal
+
     return (
         <>
             <img src={imageUrl} className={className} alt="loading" onClick={handleShow} style={{ cursor: 'pointer' }} />

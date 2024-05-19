@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useAlert } from '../store/AlertContext.js';
 
-const Alert = ({ type, message }) => {
+const Alert = ({ type = 'success', message }) => {
     const { hideAlert } = useAlert();
-    type = type || 'success';
     const [visible, setVisible] = useState(true);
     const [show, setShow] = useState('show');
 

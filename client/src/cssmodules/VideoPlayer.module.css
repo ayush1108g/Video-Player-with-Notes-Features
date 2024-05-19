@@ -14,6 +14,7 @@
   color: blue;
   cursor: pointer;
 }
+
 @media screen and (max-width: 600px) {
   .player {
     height: 50vh;

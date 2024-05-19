@@ -29,6 +29,7 @@ const Notes = ({ videoId, currentTime, setStartTime }) => {
 
     // Save notes to the local storage
     const saveNotesHandler = (notes) => {
+        // Save the notes to the local storage
         try {
             localStorage.setItem(videoId, JSON.stringify(notes));
             setUpdateNotes(prev => !prev);
@@ -43,6 +44,7 @@ const Notes = ({ videoId, currentTime, setStartTime }) => {
     // Add notes to the notes array
     const addnotesHandler = () => {
         if (notesInput.trim() === '') return alertCtx.showAlert('success', "Text Field can't be empty"); // If the input is empty, return
+        // Create a new note object
         const newNote = {
             time: parseInt(currentTime),
             text: JSON.stringify(notesInput),
@@ -59,8 +61,7 @@ const Notes = ({ videoId, currentTime, setStartTime }) => {
             alertCtx.showAlert('success', 'Notes Saved Successfully');
     }
 
-
-
+    // Handle image upload
     const handleFileInputChange = async (event, setFunction) => {
         const files = event.target.files;   // Get the files from the input
         const maxFiles = 4;                 // Maximum number of images that can be uploaded (as too many images can slow down the site)
@@ -69,6 +70,7 @@ const Notes = ({ videoId, currentTime, setStartTime }) => {
             return alertCtx.showAlert('danger', `You can upload a maximum of ${maxFiles} images`);
         }
         let imgArr = [];
+        // Add the images to the image array
         for (let i = 0; i < files.length; i++) {
             try {
                 const base64String = await handleImageUpload(files[i]);
@@ -77,10 +79,8 @@ const Notes = ({ videoId, currentTime, setStartTime }) => {
                 console.error('Error uploading image:', error);
             }
         }
-        // Add the images to the image array
         setFunction(prev => [...prev, ...imgArr]);
         // Store imgArr in local storage or use it as needed
-        console.log(imgArr);
     };
 
     // Delete an image from the image array before saving the note
@@ -90,13 +90,9 @@ const Notes = ({ videoId, currentTime, setStartTime }) => {
         setImageArr(newImageArr);           // Set the new image array
     };
 
-
+    // Handle the change in the note text
     const changeHandler = (content) => {
-        const dhtml = content;
-        const pdata = dhtml;
-        console.log("pdata", pdata);
-        setNotesInput(pdata);
-        console.log("data", pdata);
+        setNotesInput(content);
     };
 
     // Format the current time in hours, minutes and seconds
@@ -109,6 +105,7 @@ const Notes = ({ videoId, currentTime, setStartTime }) => {
         exit: { height: 0, opacity: 0, display: 'none' },
         transition: { duration: 0.5 }
     };
+
     useEffect(() => {
         // Animate the add note container based on the addNote state value
         if (addNote) {
@@ -117,6 +114,7 @@ const Notes = ({ videoId, currentTime, setStartTime }) => {
             controls.start('exit');
         }
     }, [addNote, controls]);
+
     return (
         <div className={classes.container} >
             <div className={classes.innerContainer}>
@@ -134,8 +132,6 @@ const Notes = ({ videoId, currentTime, setStartTime }) => {
                 </div>
             </div>
             <motion.div className={classes.addItemContainer} initial="initial" animate={controls} variants={animationVariants} >
-
-                {/* <input className={classes.textContainer} type="text" placeholder="Enter note" value={notesInput} onChange={(e) => setNotesInput(e.target.value)} /> */}
                 {addNote && <MySunEditor initialContent={notesInput} onChange={changeHandler} />}
                 <div>
                     <input className={`form-control shadow-none ${classes.textContainer}`} accept="image/*" type="file" id="formFileMultiple" multiple onChange={(e) => handleFileInputChange(e, setImageArr)} />

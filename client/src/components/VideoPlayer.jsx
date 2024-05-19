@@ -12,6 +12,7 @@ const VideoPlayer = ({ videoId, startTime, currentTime, setCurrentTime }) => {
     useEffect(() => {
         // Fetch the video details from the YouTube API
         const getdetails = async () => {
+            // Fetch the video details
             const data = await getVideoDetails(videoId);
             if (data) {
                 setVideoDetails(data);
@@ -27,16 +28,16 @@ const VideoPlayer = ({ videoId, startTime, currentTime, setCurrentTime }) => {
             initializePlayer();
         } else {
             // Load the YouTube IFrame Player API
-            const tag = document.createElement('script');
-            tag.src = 'https://www.youtube.com/iframe_api';
-            const firstScriptTag = document.getElementsByTagName('script')[0];
-            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-            window.onYouTubeIframeAPIReady = initializePlayer;
+            const tag = document.createElement('script');                       // Create a script tag
+            tag.src = 'https://www.youtube.com/iframe_api';                     // Set the src attribute to the YouTube IFrame Player API
+            const firstScriptTag = document.getElementsByTagName('script')[0];  // Get the first script tag on the page
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);        // Insert the script tag before the first script tag
+            window.onYouTubeIframeAPIReady = initializePlayer;                  // Initialize the player when the script is loaded
         }
         // Clean up function
         return () => {
             if (playerRef.current) {
-                playerRef.current.destroy();
+                playerRef.current.destroy();                                    // Destroy the player when the component unmounts
             }
         };
     }, [videoId]);
@@ -76,6 +77,7 @@ const VideoPlayer = ({ videoId, startTime, currentTime, setCurrentTime }) => {
         }
     };
 
+    // Toggle between read more and read less
     const toggleReadMore = () => {
         setReadMore(prev => !prev);
     };

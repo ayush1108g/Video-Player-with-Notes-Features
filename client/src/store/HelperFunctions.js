@@ -1,14 +1,16 @@
 import axios from 'axios';
 
 const formatISTDate = (timestamp) => {
-    const istDate = new Date(timestamp);
+    const istDate = new Date(timestamp); // Convert the timestamp to a date object
 
+    // Format the date and time
     const optionsDate = {
         day: 'numeric',
         month: 'long',
         year: '2-digit',
     };
 
+    // Format the time
     const optionsTime = {
         hour: '2-digit',
         minute: '2-digit',
@@ -39,7 +41,6 @@ const getVideoDetails = async (videoId) => {
     };
     try {
         const response = await axios.get(link, { params: params });
-        console.log(response.data.items[0]);
         const data = response.data.items[0];
         return data;
     } catch (error) {

@@ -5,7 +5,9 @@ import HomePage from '../pages/HomePage'
 import VideoPage from '../pages/VideoPage'
 
 const RoutesComponent = () => {
+    // useLocation hook to get the current location
     const location = useLocation()
+
     return (
         <Routes location={location}>
             <Route path="/" element={<HomePage />} />
